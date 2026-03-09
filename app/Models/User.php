@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -24,6 +25,11 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'profile_picture_path',
+    ];
+
+    protected $appends = [
+        'profile_picture_path_url',
     ];
 
     /**
@@ -48,5 +54,14 @@ class User extends Authenticatable
             'password' => 'hashed',
             'role' => RoleEnum::class,
         ];
+    }
+
+    public function getProfilePicturePathUrlAttribute(): string
+    {
+        /** @var \Illuminate\Contracts\Filesystem\FilesystemManager $public_disk */
+        $public_disk = Storage::disk('public');
+        return $this->profile_picture_path
+            ? $public_disk->url($this->profile_picture_path)
+            : asset('static/img/default-profile-picture.svg');
     }
 }
