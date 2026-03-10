@@ -7,6 +7,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+// Models
+use App\Models\Bimbel\MasterData\Teacher;
+
 // Enums
 use App\Enums\RoleEnum;
 
@@ -63,5 +66,10 @@ class User extends Authenticatable
         return $this->profile_picture_path
             ? $public_disk->url($this->profile_picture_path)
             : asset('static/img/default-profile-picture.svg');
+    }
+
+    public function teacher()
+    {
+        return $this->hasOne(Teacher::class);
     }
 }
