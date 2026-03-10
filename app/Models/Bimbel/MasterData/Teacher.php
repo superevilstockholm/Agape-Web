@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 // Models
 use App\Models\User;
+use App\Models\Bimbel\MasterData\Classroom;
 
 class Teacher extends Model
 {
@@ -19,5 +20,10 @@ class Teacher extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function classrooms()
+    {
+        return $this->hasMany(Classroom::class);
     }
 }
